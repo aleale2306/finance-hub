@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+ 
+All Transactions*.csv
+Config_Finanze_Familiari*.xlsx
+ 
+*.log
+.streamlit/secrets.toml
+Control + O
+Invio
+Control + X
