@@ -388,7 +388,7 @@ with st.sidebar:
         owners = st.multiselect("Owner", owner_options, placeholder="Tutti")
         accounts = st.multiselect("Conti", account_options, placeholder="Tutti")
         categories = st.multiselect("Categorie", category_options, placeholder="Tutte")
-        extraordinary_mode = st.selectbox("Straordinari = spese eccezionali o non ordinarie (ad esempio matrimonio, auto nuova, mobili, grndi lavori)", ["Includi tutto", "Solo ordinarie", "Solo straordinarie"])
+        extraordinary_mode = st.selectbox("Straordinari = spese eccezionali o non ordinarie (ad esempio matrimonio, auto nuova, mobili, grandi lavori)", ["Includi tutto", "Solo ordinarie", "Solo straordinarie"])
     st.caption("Conversione EUR attiva: prevale Importo in EUR; fallback su tassi configurati/storici.")
 
 selected = filtered_rows(transactions, start_date, end_date, owners, accounts, categories, extraordinary_mode)
