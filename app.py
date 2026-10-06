@@ -820,19 +820,19 @@ show_plotly(
     )
 )
 
-    historical_export = transaction_export_rows(historical_rows)
-    historical_display = [
-        {
-            "Data": row["Data"].strftime("%d/%m/%Y"),
-            "Importo EUR": fmt_number(row["Importo"], True),
-            "Categoria": row["Categoria"],
-            "Gruppo analisi": analysis_bucket(row),
-            "Progetto": row["Progetto"],
-            "Payee": row["Payee"],
-            "Conto": row["Conto"],
-            "Owner": row["Owner"],
-            "Fonte": row["Fonte"],
-        }
+historical_export = transaction_export_rows(historical_rows)
+historical_display = [
+    {
+        "Data": row["Data"].strftime("%d/%m/%Y"),
+        "Importo EUR": fmt_number(row["Importo"], True),
+        "Categoria": row["Categoria"],
+        "Gruppo analisi": analysis_bucket(row),
+        "Progetto": row["Progetto"],
+        "Payee": row["Payee"],
+        "Conto": row["Conto"],
+        "Owner": row["Owner"],
+        "Fonte": row["Fonte"],
+    }
         for row in historical_rows
     ]
     st.markdown("### Dettaglio actual")
