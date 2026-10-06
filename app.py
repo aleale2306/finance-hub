@@ -315,25 +315,25 @@ def build_quality(config, transactions, ingestion_issues):
 
 # ----- Data source -----
 with st.sidebar:
-st.markdown("## Finance Hub")
-st.caption(f"{APP_VERSION} · controllo familiare")
-
+    st.markdown("## Finance Hub")
+    st.caption(f"{APP_VERSION} · controllo familiare")
+ 
 with st.expander("Caricamenti", expanded=True):
-config_upload = st.file_uploader(
+    config_upload = st.file_uploader(
 "Configurazione (.xlsx)",
 type=["xlsx"],
 help="Carica il file Config_Finanze_Familiari_V2_Aggiornato.xlsx.",
 )
-
+ 
 tx_uploads = st.file_uploader(
 "Transazioni MoneyWiz",
 type=["csv", "xlsx"],
 accept_multiple_files=True,
-help="Carica uno o più export MoneyWiz in formato CSV o XLSX.",
+help="Carica uno o più export MoneyWiz.",
 )
-
+ 
 st.caption(
-"I file sono utilizzati nella sessione dell’app e non sono inclusi nel repository GitHub."
+"I file vengono elaborati nella sessione dell'app."
 )
 
 if config_upload is None or not tx_uploads:
