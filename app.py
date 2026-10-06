@@ -970,7 +970,7 @@ with patrimony_tab:
         ),
 
     )
- 
+
     fig.update_xaxes(
         type="category",
         categoryorder="array",
