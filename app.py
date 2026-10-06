@@ -643,7 +643,7 @@ with forecast_tab:
                     width="stretch",
                     hide_index=True,
                 )
-        else:
+            else:
             st.info(
                 "Nessun dettaglio configurato per la "
                 "selezione corrente."
