@@ -555,7 +555,7 @@ with forecast_tab:
     )
 
     fig = chart_style(fig, 420)
- 
+
     forecast_event = st.plotly_chart(
         fig,
         width="stretch",
@@ -572,53 +572,53 @@ with forecast_tab:
         if forecast_event
         else {}
     )
- 
+
     forecast_points = forecast_selection.get("points", [])
- 
+
     if forecast_points:
         selected_point = forecast_points[0]
         selected_data = selected_point.get("customdata", [])
- 
+
         if len(selected_data) >= 2:
             selected_class = str(selected_data[0])
             selected_month = int(selected_data[1])
- 
+
         st.markdown(
             f"### Dettaglio {selected_class} · "
             f"{MONTHS_IT[selected_month - 1]} {year}"
         )
- 
+
         forecast_detail = []
- 
+
         for row in config.get("Budget", []):
             row_year = int(
                 parse_number(row.get("Anno")) or year
             )
- 
+
             row_status = norm(row.get("Stato"))
             row_class = str(
                 row.get("Classe di spesa")
                 or "Ricorrente variabile"
             )
- 
+
             if row_class not in class_months:
                 row_class = "Ricorrente variabile"
- 
+
             if row_year != year:
                 continue
- 
+
             if row_status != "confermato":
                 continue
- 
+
             if norm(row_class) != norm(selected_class):
                 continue
- 
+
             monthly_amounts = budget_monthly_amounts(row, year)
             selected_amount = monthly_amounts[selected_month - 1]
- 
+
             if abs(selected_amount) < 0.000001:
                 continue
- 
+
             forecast_detail.append(
                 {
                     "Categoria": row.get("Categoria MoneyWiz"),
@@ -636,7 +636,7 @@ with forecast_tab:
                     ),
                 }
             )
- 
+
         if forecast_detail:
             st.dataframe(
                 forecast_detail,
