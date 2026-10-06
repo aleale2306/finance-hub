@@ -421,7 +421,7 @@ accounting_nw = net_worth(config, transactions, snapshot, accounting=True)
 total_nw = net_worth(config, transactions, snapshot, accounting=False)
 
 # ----- Header -----
-st.title("Finance Hub 4.3")
+st.title("Finance Hub")
 st.markdown(
     f'<span class="fh-chip">{start_date.strftime("%d/%m/%Y")} – {end_date.strftime("%d/%m/%Y")}</span>'
     f'<span class="fh-chip">{len(selected):,} transazioni</span>'
