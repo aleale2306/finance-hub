@@ -568,7 +568,7 @@ with forecast_tab:
         },
     )
     forecast_selection = (
-        forecast_event.get("selection", {})\
+        forecast_event.get("selection", {})
         if forecast_event
         else {}
     )
@@ -593,49 +593,49 @@ with forecast_tab:
             for row in config.get("Budget", []):
                 row_year = int(
                 parse_number(row.get("Anno")) or year
-            )
+                )
 
-            row_status = norm(row.get("Stato"))
-            row_class = str(
+                row_status = norm(row.get("Stato"))
+                row_class = str(
                 row.get("Classe di spesa")
                 or "Ricorrente variabile"
-            )
+                )
+                
+                if row_class not in class_months:
+                    row_class = "Ricorrente variabile"
 
-            if row_class not in class_months:
-                row_class = "Ricorrente variabile"
+                if row_year != year:
+                    continue
 
-            if row_year != year:
-                continue
+                if row_status != "confermato":
+                    continue
 
-            if row_status != "confermato":
-                continue
+                if norm(row_class) != norm(selected_class):
+                    continue
 
-            if norm(row_class) != norm(selected_class):
-                continue
+                monthly_amounts = budget_monthly_amounts(row, year)
+                selected_amount = monthly_amounts[selected_month - 1]
 
-            monthly_amounts = budget_monthly_amounts(row, year)
-            selected_amount = monthly_amounts[selected_month - 1]
+                if abs(selected_amount) < 0.000001:
+                    continue
 
-            if abs(selected_amount) < 0.000001:
-                continue
-
-            forecast_detail.append(
-                {
-                    "Categoria": row.get("Categoria MoneyWiz"),
-                    "Owner": row.get("Owner"),
-                    "Tipo budget": row.get("Tipo budget"),
-                    "Classe di spesa": row_class,
-                    "Importo previsto": fmt_number(
-                        selected_amount,
-                        True,
-                    ),
-                    "Note": (
-                        row.get("Note utente")
-                        or row.get("Nota tecnica")
-                        or ""
-                    ),
-                }
-            )
+                forecast_detail.append(
+                    {
+                        "Categoria": row.get("Categoria MoneyWiz"),
+                        "Owner": row.get("Owner"),
+                        "Tipo budget": row.get("Tipo budget"),
+                        "Classe di spesa": row_class,
+                        "Importo previsto": fmt_number(
+                            selected_amount,
+                            True,
+                        ),
+                        "Note": (
+                            row.get("Note utente")
+                            or row.get("Nota tecnica")
+                            or ""
+                        ),
+                    }
+                )
 
             if forecast_detail:
                 st.dataframe(
@@ -643,12 +643,12 @@ with forecast_tab:
                     width="stretch",
                     hide_index=True,
                 )
-            else:
-                st.info(
-                    "Nessun dettaglio configurato per la "
-                    "selezione corrente."
-                )
         else:
+             st.info(
+                 "Nessun dettaglio configurato per la "
+                 "selezione corrente."
+             )
+    else:
             st.caption(
                 "Seleziona una sezione di una colonna per "
                 "visualizzare il dettaglio delle previsioni."
