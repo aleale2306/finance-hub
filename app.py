@@ -338,7 +338,7 @@ st.caption(
 
 if config_upload is None:
     st.title("Finance Hub")
-    st.info("Carica il file Config_Finanze_Familiari_V2_Aggiornato.xlsx"
+    st.info("Carica il file Config_Finanze_Familiari_V2_Aggiornato.xlsx")
     st.stop()
 
 config_bytes = config_upload.getvalue()
