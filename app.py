@@ -644,10 +644,10 @@ with forecast_tab:
                     hide_index=True,
                 )
             else:
-            st.info(
-                "Nessun dettaglio configurato per la "
-                "selezione corrente."
-            )
+                st.info(
+                    "Nessun dettaglio configurato per la "
+                    "selezione corrente."
+                )
         else:
             st.caption(
                 "Seleziona una sezione di una colonna per "
