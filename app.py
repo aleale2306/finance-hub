@@ -603,6 +603,7 @@ with history_tab:
     historical_labels = [
         MONTHS_IT[int(key.split("-")[1]) - 1]
         for key in historical_keys
+    ]
     fig = go.Figure()
     fig.add_bar(name="Entrate actual", x=historical_keys, y=[historical_monthly[key]["Entrate"] for key in historical_keys], marker_color=SAGE_LIGHT, hovertemplate="%{x}<br>Entrate € %{y:,.2f}<extra></extra>")
     fig.add_bar(name="Spese actual", x=historical_keys, y=[historical_monthly[key]["Spese"] for key in historical_keys], marker_color=BRICK_LIGHT, hovertemplate="%{x}<br>Spese € %{y:,.2f}<extra></extra>")
