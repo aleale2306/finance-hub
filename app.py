@@ -337,7 +337,7 @@ st.caption(
 )
 
 if config_upload is None or not tx_uploads:
-st.title("Finance Hub")
+    st.title("Finance Hub")
 st.info(
 "Apri la barra laterale e carica entrambi i file richiesti:\n\n"
 "1. Config_Finanze_Familiari_V2_Aggiornato.xlsx\n"
