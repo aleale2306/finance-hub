@@ -526,10 +526,133 @@ with forecast_tab:
         amounts = budget_monthly_amounts(row, year)
         class_months[cls] = [a + b for a, b in zip(class_months[cls], amounts)]
     fig = go.Figure()
-    for cls, color in [("Fissa", SAGE), ("Ricorrente variabile", OCHRE_LIGHT), ("Straordinaria", BRICK)]:
-        fig.add_bar(name=cls, x=MONTHS_IT, y=class_months[cls], marker_color=color, hovertemplate=f"%{{x}}<br>{cls} € %{{y:,.2f}}<extra></extra>")
-    fig.update_layout(barmode="stack")
-    show_plotly(chart_style(fig, 420))
+    forecast_classes = [
+        ("Fissa", SAGE),
+        ("Ricorrente variabile", OCHRE_LIGHT),
+        ("Straordinaria", BRICK),
+    ]
+
+    for cls, color in forecast_classes:
+        fig.add_bar(
+            name=cls,
+            x=MONTHS_IT,
+            y=class_months[cls],
+            marker_color=color,
+            customdata=[
+                [cls, month_number]
+                for month_number in range(1, 13)
+    ],
+    hovertemplate=(
+        "%{x}<br>"
+        + cls
+        + " € %{y:,.2f}"
+        + "<extra></extra>"
+    ),
+    )
+    fig.update_layout(
+        barmode="stack",
+        clickmode="event+select",
+    )
+ 
+    fig = chart_style(fig, 420)
+ 
+    forecast_event = st.plotly_chart(
+        fig,
+        width="stretch",
+        key="forecast_interactive_chart",
+        on_select="rerun",
+        selection_mode="points",
+        config={
+            "displayModeBar": False,
+            "responsive": True,
+        },
+    )
+    forecast_selection = (
+        forecast_event.get("selection", {})\
+        if forecast_event
+        else {}
+    )
+ 
+    forecast_points = forecast_selection.get("points", [])
+ 
+    if forecast_points:
+        selected_point = forecast_points[0]
+        selected_data = selected_point.get("customdata", [])
+ 
+        if len(selected_data) >= 2:
+            selected_class = str(selected_data[0])
+            selected_month = int(selected_data[1])
+ 
+        st.markdown(
+            f"### Dettaglio {selected_class} · "
+            f"{MONTHS_IT[selected_month - 1]} {year}"
+        )
+ 
+        forecast_detail = []
+ 
+        for row in config.get("Budget", []):
+            row_year = int(
+                parse_number(row.get("Anno")) or year
+            )
+ 
+            row_status = norm(row.get("Stato"))
+            row_class = str(
+                row.get("Classe di spesa")
+                or "Ricorrente variabile"
+            )
+ 
+            if row_class not in class_months:
+                row_class = "Ricorrente variabile"
+ 
+            if row_year != year:
+                continue
+ 
+            if row_status != "confermato":
+                continue
+ 
+            if norm(row_class) != norm(selected_class):
+                continue
+ 
+            monthly_amounts = budget_monthly_amounts(row, year)
+            selected_amount = monthly_amounts[selected_month - 1]
+ 
+            if abs(selected_amount) < 0.000001:
+                continue
+ 
+            forecast_detail.append(
+                {
+                    "Categoria": row.get("Categoria MoneyWiz"),
+                    "Owner": row.get("Owner"),
+                    "Tipo budget": row.get("Tipo budget"),
+                    "Classe di spesa": row_class,
+                    "Importo previsto": fmt_number(
+                        selected_amount,
+                        True,
+                    ),
+                    "Note": (
+                        row.get("Note utente")
+                        or row.get("Nota tecnica")
+                        or ""
+                    ),
+                }
+            )
+ 
+        if forecast_detail:
+            st.dataframe(
+                forecast_detail,
+                width="stretch",
+                hide_index=True,
+            )
+        else:
+            st.info(
+                "Nessun dettaglio configurato per la "
+                "selezione corrente."
+            )
+        else:
+            st.caption(
+                "Seleziona una sezione di una colonna per "
+                "visualizzare il dettaglio delle previsioni."
+            )
     if planned_income <= 0:
         st.warning("Nel file incluso le righe del foglio Entrate risultano ancora con importo 0; il risparmio previsto resta quindi negativo finché gli importi non vengono compilati.")
 
