@@ -52,9 +52,9 @@ PALETTE = [OCHRE, SAND, SAGE, BRICK, OCHRE_LIGHT, SAGE_LIGHT, BRICK_LIGHT, "#A79
 TRAVEL_PALETTE = ["#A96832", "#C4873F", "#D7A456", "#E4BD78", "#B97845", "#D4935B", "#E9C994"]
 MONTHS_IT = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"]
 
-APP_VERSION = "4.3 · aggiornamenti 5.2, 5.4, 5.5 e 5.7"
+APP_VERSION = "5.0"
 
-st.set_page_config(page_title="Finance Hub 4.3", page_icon="◈", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="Finance Hub", page_icon="◈", layout="wide", initial_sidebar_state="expanded")
 
 st.markdown(
     f"""
@@ -316,7 +316,7 @@ def build_quality(config, transactions, ingestion_issues):
 # ----- Data source -----
 with st.sidebar:
     st.markdown("## Finance Hub")
-    st.caption(f"{APP_VERSION} · controllo familiare")
+    st.caption(f"{APP_VERSION} · Applicazione per controllo familiare delle finanze")
 
     with st.expander("Caricamenti", expanded=True):
         config_upload = st.file_uploader(
