@@ -336,13 +336,10 @@ st.caption(
 "I file vengono elaborati nella sessione dell'app."
 )
 
-if config_upload is None or not tx_uploads:
+if config_upload is None:
     st.title("Finance Hub")
 st.info(
-"Apri la barra laterale e carica entrambi i file richiesti:\n\n"
-"1. Config_Finanze_Familiari_V2_Aggiornato.xlsx\n"
-"2. Export MoneyWiz CSV o XLSX"
-)
+"Carica il file Config_Finanze_Familiari_V2_Aggiornato.xlsx"
 st.stop()
 
 config_bytes = config_upload.getvalue()
