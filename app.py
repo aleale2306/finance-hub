@@ -54,7 +54,12 @@ MONTHS_IT = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott
 
 APP_VERSION = "Versione 5.0"
 
-st.set_page_config(page_title="Finance Hub", page_icon="◈", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(
+    page_title="Finance Hub",
+    page_icon="◈",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 st.markdown(
     f"""
