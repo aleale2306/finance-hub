@@ -638,11 +638,11 @@ with forecast_tab:
             )
 
             if forecast_detail:
-            st.dataframe(
-                forecast_detail,
-                width="stretch",
-                hide_index=True,
-            )
+                st.dataframe(
+                    forecast_detail,
+                    width="stretch",
+                    hide_index=True,
+                )
         else:
             st.info(
                 "Nessun dettaglio configurato per la "
