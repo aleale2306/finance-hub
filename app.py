@@ -722,17 +722,103 @@ with history_tab:
         else:
             historical_monthly[key]["Spese"] += abs(amount)
         historical_monthly[key]["Risultato"] += amount
-    historical_keys = sorted(historical_monthly)
+    historical_month_numbers = list(
+        range(start_date.month, end_date.month + 1)
+    )
+
+    historical_keys = [
+        f"{year}-{month:02d}"
+        for month in historical_month_numbers
+    ]
+
     historical_labels = [
-        MONTHS_IT[int(key.split("-")[1]) - 1]
+        MONTHS_IT[month - 1]
+        for month in historical_month_numbers
+    ]
+
+    historical_income_values = [
+        historical_monthly[key]["Entrate"]
         for key in historical_keys
     ]
-    fig = go.Figure()
-    fig.add_bar(name="Entrate actual", x=historical_keys, y=[historical_monthly[key]["Entrate"] for key in historical_keys], marker_color=SAGE_LIGHT, hovertemplate="%{x}<br>Entrate € %{y:,.2f}<extra></extra>")
-    fig.add_bar(name="Spese actual", x=historical_keys, y=[historical_monthly[key]["Spese"] for key in historical_keys], marker_color=BRICK_LIGHT, hovertemplate="%{x}<br>Spese € %{y:,.2f}<extra></extra>")
-    fig.add_scatter(name="Risultato actual", x=historical_keys, y=[historical_monthly[key]["Risultato"] for key in historical_keys], mode="lines+markers", line=dict(color=OCHRE, width=4), hovertemplate="%{x}<br>Risultato € %{y:,.2f}<extra></extra>")
-    fig.update_layout(barmode="group")
-    show_plotly(chart_style(fig, 430))
+
+    historical_expense_values = [
+        historical_monthly[key]["Spese"]
+        for key in historical_keys
+    ]
+
+    historical_result_values = [
+        historical_monthly[key]["Risultato"]
+        for key in historical_keys
+    ]
+
+fig = go.Figure()
+
+fig.add_bar(
+    name="Entrate actual",
+    x=historical_labels,
+    y=historical_income_values,
+    marker_color=SAGE_LIGHT,
+    hovertemplate=(
+        "%{x}<br>"
+        "Entrate € %{y:,.2f}"
+        "<extra></extra>"
+    ),
+)
+
+fig.add_bar(
+    name="Spese actual",
+    x=historical_labels,
+    y=historical_expense_values,
+    marker_color=BRICK_LIGHT,
+    hovertemplate=(
+        "%{x}<br>"
+        "Spese € %{y:,.2f}"
+        "<extra></extra>"
+    ),
+)
+
+fig.add_scatter(
+    name="Risultato actual",
+    x=historical_labels,
+    y=historical_result_values,
+    mode="lines+markers",
+    line=dict(
+        color=OCHRE,
+        width=4,
+    ),
+    marker=dict(
+        color=OCHRE,
+        size=8,
+    ),
+    hovertemplate=(
+        "%{x}<br>"
+        "Risultato € %{y:,.2f}"
+        "<extra></extra>"
+    ),
+)
+
+fig.update_layout(
+    barmode="group",
+    bargap=0.18,
+)
+
+fig.update_xaxes(
+    type="category",
+    categoryorder="array",
+    categoryarray=historical_labels,
+    tickmode="array",
+    tickvals=historical_labels,
+    ticktext=historical_labels,
+    tickangle=0,
+    automargin=True,
+)
+
+show_plotly(
+    chart_style(
+        fig,
+        430,
+    )
+)
 
     historical_export = transaction_export_rows(historical_rows)
     historical_display = [
