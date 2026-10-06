@@ -600,6 +600,9 @@ with history_tab:
             historical_monthly[key]["Spese"] += abs(amount)
         historical_monthly[key]["Risultato"] += amount
     historical_keys = sorted(historical_monthly)
+    historical_labels = [
+        MONTHS_IT[int(key.split("-")[1]) - 1]
+        for key in historical_keys
     fig = go.Figure()
     fig.add_bar(name="Entrate actual", x=historical_keys, y=[historical_monthly[key]["Entrate"] for key in historical_keys], marker_color=SAGE_LIGHT, hovertemplate="%{x}<br>Entrate € %{y:,.2f}<extra></extra>")
     fig.add_bar(name="Spese actual", x=historical_keys, y=[historical_monthly[key]["Spese"] for key in historical_keys], marker_color=BRICK_LIGHT, hovertemplate="%{x}<br>Spese € %{y:,.2f}<extra></extra>")
@@ -728,7 +731,7 @@ with patrimony_tab:
 
 # ----- Expenses -----
 with expense_tab:
-    st.subheader("Spese")
+    st.subheader("Dettaglio spese per categoria")
     category_spend = group_sum(expenses, "Categoria", absolute=True)
     total_spend = sum(category_spend.values())
     ranked = sorted(category_spend.items(), key=lambda item: item[1], reverse=True)[:18]
@@ -751,7 +754,7 @@ with expense_tab:
 
 # ----- Travel -----
 with travel_tab:
-    st.subheader("Viaggi")
+    st.subheader("Analisi viaggi")
     all_travel_expenses = [tx for tx in expenses if norm(tx.get("Macro-categoria")) == "viaggi" or norm(tx.get("Categoria")).startswith("viaggi")]
     project_options = sorted({str(tx.get("Progetto") or "Non assegnato") for tx in all_travel_expenses}, key=norm)
     selected_project = st.selectbox("Viaggio / progetto", ["Tutti i viaggi / progetti"] + project_options, key="travel_project")
