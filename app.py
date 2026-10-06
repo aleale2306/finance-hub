@@ -52,7 +52,7 @@ PALETTE = [OCHRE, SAND, SAGE, BRICK, OCHRE_LIGHT, SAGE_LIGHT, BRICK_LIGHT, "#A79
 TRAVEL_PALETTE = ["#A96832", "#C4873F", "#D7A456", "#E4BD78", "#B97845", "#D4935B", "#E9C994"]
 MONTHS_IT = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"]
 
-APP_VERSION = "5.0"
+APP_VERSION = "Versione 5.0"
 
 st.set_page_config(page_title="Finance Hub", page_icon="◈", layout="wide", initial_sidebar_state="expanded")
 
