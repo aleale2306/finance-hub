@@ -429,8 +429,8 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-recap_tab, budget_tab, forecast_tab, compare_tab, history_tab, patrimony_tab, expense_tab, travel_tab, quality_tab = st.tabs(
-    ["Recap", "Budget vs Actual", "Previsione", "Storico vs Previsione", "Storico", "Patrimonio", "Spese", "Viaggi", "Data quality"]
+recap_tab, history_tab, budget_tab, forecast_tab, compare_tab, patrimony_tab, expense_tab, travel_tab, quality_tab = st.tabs(
+    ["Recap", "Storico", "Budget vs Actual", "Previsione", "Storico vs Previsione", "Patrimonio", "Dettaglio spese per categoria", "Analisi viaggi", "Data quality"]
 )
 
 # ----- Recap -----
