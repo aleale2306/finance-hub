@@ -583,10 +583,10 @@ with forecast_tab:
             selected_class = str(selected_data[0])
             selected_month = int(selected_data[1])
 
-        st.markdown(
-            f"### Dettaglio {selected_class} · "
-            f"{MONTHS_IT[selected_month - 1]} {year}"
-        )
+            st.markdown(
+                f"### Dettaglio {selected_class} · "
+                f"{MONTHS_IT[selected_month - 1]} {year}"
+            )
 
         forecast_detail = []
 
