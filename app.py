@@ -591,7 +591,7 @@ with forecast_tab:
             forecast_detail = []
 
             for row in config.get("Budget", []):
-            row_year = int(
+                row_year = int(
                 parse_number(row.get("Anno")) or year
             )
 
