@@ -338,23 +338,24 @@ st.caption(
 
 if config_upload is None:
     st.title("Finance Hub")
-st.info(
-"Carica il file Config_Finanze_Familiari_V2_Aggiornato.xlsx"
-st.stop()
+    st.info("Carica il file Config_Finanze_Familiari_V2_Aggiornato.xlsx"
+    st.stop()
 
 config_bytes = config_upload.getvalue()
 config = cached_config(config_bytes)
 
 file_payloads = tuple(
 (item.name, item.getvalue())
-for item in tx_uploads
+for item in (tx_uploads or [])
 )
 
 transactions, ingestion_issues = cached_transactions(
 file_payloads,
 config_bytes,
 )
-
+if file_payloads
+else ([], [])
+)
 # ----- Filters -----
 today = date.today()
 budget_years = {int(parse_number(r.get("Anno")) or today.year) for r in config.get("Budget", [])}
