@@ -349,9 +349,10 @@ file_payloads = tuple(
 for item in (tx_uploads or [])
 )
 
-transactions, ingestion_issues = cached_transactions(
-file_payloads,
-config_bytes,
+transactions, ingestion_issues = (
+    cached_transactions(
+        file_payloads,
+        config_bytes,
 )
 if file_payloads
 else ([], [])
