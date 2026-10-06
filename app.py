@@ -854,7 +854,7 @@ with patrimony_tab:
     with cols[0]: metric_card("Patrimonio contabile", fmt_number(accounting_nw, True), "positive" if accounting_nw >= 0 else "negative", "Finanziamento Mercedes escluso")
     with cols[1]: metric_card("Patrimonio complessivo", fmt_number(total_nw, True), "positive" if total_nw >= 0 else "negative", "Finanziamento Mercedes incluso")
 
-    st.markdown("### Patrimonio storico")
+    st.markdown("### Evoluzione nel tempo del patrimonio netto")
     history_scope = st.radio(
         "Periodo patrimonio",
         ["Tutto lo storico", "Anno selezionato"],
@@ -879,10 +879,109 @@ with patrimony_tab:
     accounting_series = [net_worth(config, transactions, d, True) for d in timeline]
     total_series = [net_worth(config, transactions, d, False) for d in timeline]
     fig = go.Figure()
-    labels = [d.strftime("%Y-%m-%d") for d in timeline]
-    fig.add_scatter(name="Patrimonio contabile", x=labels, y=accounting_series, mode="lines+markers", line=dict(color=SAGE, width=4), hovertemplate="%{x}<br>€ %{y:,.2f}<extra></extra>")
-    fig.add_scatter(name="Patrimonio complessivo", x=labels, y=total_series, mode="lines+markers", line=dict(color=OCHRE, width=4), hovertemplate="%{x}<br>€ %{y:,.2f}<extra></extra>")
-    show_plotly(chart_style(fig, 430))
+    labels = [
+        (
+            MONTHS_IT[snapshot_date.month - 1]
+            if history_scope == "Anno selezionato"
+            else (
+                f"{MONTHS_IT[snapshot_date.month - 1]} "
+                f"{snapshot_date.year}"
+            )
+        )
+        for snapshot_date in timeline
+    ]
+
+    hover_labels = [
+        snapshot_date.strftime("%d/%m/%Y")
+        for snapshot_date in timeline
+    ]
+
+    fig.add_scatter(
+        name="Patrimonio contabile",
+        x=labels,
+        y=accounting_series,
+        customdata=hover_labels,
+        mode="lines+markers",
+        line=dict(
+            color=SAGE,
+            width=4,
+        ),
+        marker=dict(
+            color=SAGE,
+            size=8,
+        ),
+        yaxis="y",
+        hovertemplate=(
+            "%{customdata}<br>"
+            "Patrimonio contabile € %{y:,.2f}"
+            "<extra></extra>"
+        ),
+    )
+
+    fig.add_scatter(
+        name="Patrimonio complessivo",
+        x=labels,
+        y=total_series,
+        customdata=hover_labels,
+        mode="lines+markers",
+        line=dict(
+            color=OCHRE,
+            width=4,
+        ),
+        marker=dict(
+            color=OCHRE,
+            size=8,
+        ),
+        yaxis="y2",
+        hovertemplate=(
+            "%{customdata}<br>"
+            "Patrimonio complessivo € %{y:,.2f}"
+            "<extra></extra>"
+        ),
+    )
+
+    fig = chart_style(
+        fig,
+        430,
+    )
+
+    fig.update_layout(
+        yaxis=dict(
+            title="Patrimonio contabile (€)",
+            gridcolor=GRID,
+            zerolinecolor=GRID,
+            tickformat=",.2f",
+            side="left",
+        ),
+        yaxis2=dict(
+            title="Patrimonio complessivo (€)",
+            overlaying="y",
+            side="right",
+            showgrid=False,
+            zeroline=False,
+            tickformat=",.2f",
+        ),
+
+        margin=dict(
+            l=25,
+            r=65,
+            t=30,
+            b=35,
+        ),
+
+    )
+ 
+    fig.update_xaxes(
+        type="category",
+        categoryorder="array",
+        categoryarray=labels,
+        tickmode="array",
+        tickvals=labels,
+        ticktext=labels,
+        tickangle=0,
+        automargin=True,
+    )
+    show_plotly(fig)
     patrimony_history = []
     previous_accounting = previous_total = None
     for snapshot_date, accounting_value, total_value in zip(timeline, accounting_series, total_series):
