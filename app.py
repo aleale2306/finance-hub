@@ -553,7 +553,7 @@ with forecast_tab:
         barmode="stack",
         clickmode="event+select",
     )
- 
+
     fig = chart_style(fig, 420)
  
     forecast_event = st.plotly_chart(
