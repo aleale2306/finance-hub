@@ -588,9 +588,9 @@ with forecast_tab:
                 f"{MONTHS_IT[selected_month - 1]} {year}"
             )
 
-        forecast_detail = []
+            forecast_detail = []
 
-        for row in config.get("Budget", []):
+            for row in config.get("Budget", []):
             row_year = int(
                 parse_number(row.get("Anno")) or year
             )
@@ -637,7 +637,7 @@ with forecast_tab:
                 }
             )
 
-        if forecast_detail:
+            if forecast_detail:
             st.dataframe(
                 forecast_detail,
                 width="stretch",
