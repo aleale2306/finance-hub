@@ -425,8 +425,7 @@ st.title("Finance Hub 4.3")
 st.markdown(
     f'<span class="fh-chip">{start_date.strftime("%d/%m/%Y")} – {end_date.strftime("%d/%m/%Y")}</span>'
     f'<span class="fh-chip">{len(selected):,} transazioni</span>'
-    f'<span class="fh-chip">Configurazione: {html.escape(config_upload.name if config_upload else DEFAULT_CONFIG.name)}</span>'
-    f'<span class="fh-chip">Modifiche 5.2 · 5.4 · 5.5 · 5.7</span>',
+    f'<span class="fh-chip">Configurazione: {html.escape(config_upload.name if config_upload else DEFAULT_CONFIG.name)}</span>',
     unsafe_allow_html=True,
 )
 
@@ -446,7 +445,7 @@ with recap_tab:
     row2 = st.columns(4)
     with row2[0]: metric_card("Patrimonio contabile", fmt_number(accounting_nw, True), "positive" if accounting_nw >= 0 else "negative", "Conti inclusi + attività − debiti contabili")
     with row2[1]: metric_card("Patrimonio complessivo", fmt_number(total_nw, True), "positive" if total_nw >= 0 else "negative", "Include beni e finanziamento Mercedes")
-    with row2[2]: metric_card("Forecast risparmio/spesa anno completo", f"{fmt_number(forecast_savings, True)} / {fmt_number(forecast_spending, True)}", "positive" if forecast_savings >= 0 else "negative", "Risparmio previsto / spesa prevista")
+    with row2[2]: metric_card("Forecast risultato anno completo", fmt_number(forecast_savings, True), "positive" if forecast_savings >= 0 else "negative", "Risparmio previsto / spesa prevista")
     with row2[3]: metric_card("Tasso di risparmio anno completo", fmt_percent(forecast_rate), "positive" if forecast_rate is not None and forecast_rate >= 0 else "negative", "Forecast risparmio / entrate")
 
     st.markdown("### Cash flow")
