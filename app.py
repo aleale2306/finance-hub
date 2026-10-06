@@ -315,17 +315,48 @@ def build_quality(config, transactions, ingestion_issues):
 
 # ----- Data source -----
 with st.sidebar:
-    st.markdown("## Finance Hub")
-    st.caption(f"{APP_VERSION} · controllo familiare")
-    with st.expander("Caricamenti", expanded=False):
-        config_upload = st.file_uploader("Configurazione (.xlsx)", type=["xlsx"], help="Se non selezionato viene usato il file V2 aggiornato incluso nel pacchetto.")
-        tx_uploads = st.file_uploader("Transazioni MoneyWiz", type=["csv", "xlsx"], accept_multiple_files=True, help="Sono supportati CSV e XLSX con Data e Importo oppure Importo in EUR.")
-        st.caption("I file sono elaborati solo localmente nella sessione Streamlit.")
-
-config_bytes = config_upload.getvalue() if config_upload else DEFAULT_CONFIG.read_bytes()
+st.markdown("## Finance Hub")
+st.caption(f"{APP_VERSION} · controllo familiare")
+ 
+with st.expander("Caricamenti", expanded=True):
+config_upload = st.file_uploader(
+"Configurazione (.xlsx)",
+type=["xlsx"],
+help="Carica il file Config_Finanze_Familiari_V2_Aggiornato.xlsx.",
+)
+ 
+tx_uploads = st.file_uploader(
+"Transazioni MoneyWiz",
+type=["csv", "xlsx"],
+accept_multiple_files=True,
+help="Carica uno o più export MoneyWiz in formato CSV o XLSX.",
+)
+ 
+st.caption(
+"I file sono utilizzati nella sessione dell’app e non sono inclusi nel repository GitHub."
+)
+ 
+if config_upload is None or not tx_uploads:
+st.title("Finance Hub")
+st.info(
+"Apri la barra laterale e carica entrambi i file richiesti:\n\n"
+"1. Config_Finanze_Familiari_V2_Aggiornato.xlsx\n"
+"2. Export MoneyWiz CSV o XLSX"
+)
+st.stop()
+ 
+config_bytes = config_upload.getvalue()
 config = cached_config(config_bytes)
-file_payloads = tuple((item.name, item.getvalue()) for item in (tx_uploads or []))
-transactions, ingestion_issues = cached_transactions(file_payloads, config_bytes) if file_payloads else ([], [])
+ 
+file_payloads = tuple(
+(item.name, item.getvalue())
+for item in tx_uploads
+)
+ 
+transactions, ingestion_issues = cached_transactions(
+file_payloads,
+config_bytes,
+)
 
 # ----- Filters -----
 today = date.today()
