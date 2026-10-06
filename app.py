@@ -835,15 +835,15 @@ historical_display = [
     }
         for row in historical_rows
     ]
-    st.markdown("### Dettaglio actual")
-    st.dataframe(historical_display, width="stretch", hide_index=True)
-    if historical_export:
-        st.download_button(
-            "Esporta storico actual CSV",
-            data=csv_bytes(historical_export, list(historical_export[0].keys())),
-            file_name=f"storico_actual_{start_date.isoformat()}_{end_date.isoformat()}.csv",
-            mime="text/csv",
-        )
+st.markdown("### Dettaglio actual")
+st.dataframe(historical_display, width="stretch", hide_index=True)
+if historical_export:
+    st.download_button(
+        "Esporta storico actual CSV",
+        data=csv_bytes(historical_export, list(historical_export[0].keys())),
+        file_name=f"storico_actual_{start_date.isoformat()}_{end_date.isoformat()}.csv",
+        mime="text/csv",
+    )
     if not historical_rows:
         st.info("Nessuna transazione actual nel periodo e nei filtri selezionati.")
 
