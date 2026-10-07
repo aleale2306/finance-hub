@@ -1141,4 +1141,4 @@ with quality_tab:
     st.markdown('<div class="fh-note"><b>Conversione EUR attiva.</b> L’app usa prima la colonna Importo in EUR; in alternativa applica i tassi configurati e i tassi storici della prima versione per JPY, ISK ed EGP. Le righe senza un tasso affidabile sono escluse e segnalate.</div>', unsafe_allow_html=True)
 
 st.divider()
-st.caption("Finance Hub 4.3 · aggiornamenti 5.2, 5.4, 5.5 e 5.7 · formato numerico 25,000.50 · dati elaborati localmente")
+st.caption("Finance Hub Versione 5.0 · dati elaborati localmente")
