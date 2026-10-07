@@ -63,7 +63,7 @@ st.set_page_config(
 
 # ----- Authentication -----
 
-APP_PASSWORD = "FamigliaOlandese"
+APP_PASSWORD = st.secrets["APP_PASSWORD"]
 
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
