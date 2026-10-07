@@ -61,6 +61,31 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# ----- Authentication -----
+ 
+APP_PASSWORD = "FamigliaOlandese"
+ 
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+ 
+if not st.session_state.authenticated:
+ 
+    st.title("Finance Hub")
+ 
+    password = st.text_input(
+        "Password",
+        type="password"
+    )
+ 
+    if st.button("Accedi"):
+        if password == APP_PASSWORD:
+            st.session_state.authenticated = True
+            st.rerun()
+        else:
+            st.error("Password non corretta")
+ 
+    st.stop()
+
 st.markdown(
     f"""
 <style>
