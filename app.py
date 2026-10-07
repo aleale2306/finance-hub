@@ -751,101 +751,101 @@ with history_tab:
         for key in historical_keys
     ]
 
-fig = go.Figure()
+    fig = go.Figure()
 
-fig.add_bar(
-    name="Entrate actual",
-    x=historical_labels,
-    y=historical_income_values,
-    marker_color=SAGE_LIGHT,
-    hovertemplate=(
-        "%{x}<br>"
-        "Entrate € %{y:,.2f}"
-        "<extra></extra>"
-    ),
-)
-
-fig.add_bar(
-    name="Spese actual",
-    x=historical_labels,
-    y=historical_expense_values,
-    marker_color=BRICK_LIGHT,
-    hovertemplate=(
-        "%{x}<br>"
-        "Spese € %{y:,.2f}"
-        "<extra></extra>"
-    ),
-)
-
-fig.add_scatter(
-    name="Risultato actual",
-    x=historical_labels,
-    y=historical_result_values,
-    mode="lines+markers",
-    line=dict(
-        color=OCHRE,
-        width=4,
-    ),
-    marker=dict(
-        color=OCHRE,
-        size=8,
-    ),
-    hovertemplate=(
-        "%{x}<br>"
-        "Risultato € %{y:,.2f}"
-        "<extra></extra>"
-    ),
-)
-
-fig.update_layout(
-    barmode="group",
-    bargap=0.18,
-)
-
-fig.update_xaxes(
-    type="category",
-    categoryorder="array",
-    categoryarray=historical_labels,
-    tickmode="array",
-    tickvals=historical_labels,
-    ticktext=historical_labels,
-    tickangle=0,
-    automargin=True,
-)
-
-show_plotly(
-    chart_style(
-        fig,
-        430,
+    fig.add_bar(
+        name="Entrate actual",
+        x=historical_labels,
+        y=historical_income_values,
+        marker_color=SAGE_LIGHT,
+        hovertemplate=(
+            "%{x}<br>"
+            "Entrate € %{y:,.2f}"
+            "<extra></extra>"
+        ),
     )
-)
 
-historical_export = transaction_export_rows(historical_rows)
-historical_display = [
-    {
-        "Data": row["Data"].strftime("%d/%m/%Y"),
-        "Importo EUR": fmt_number(row["Importo"], True),
-        "Categoria": row["Categoria"],
-        "Gruppo analisi": analysis_bucket(row),
-        "Progetto": row["Progetto"],
-        "Payee": row["Payee"],
-        "Conto": row["Conto"],
-        "Owner": row["Owner"],
-        "Fonte": row["Fonte"],
-    }
-        for row in historical_rows
-    ]
-st.markdown("### Dettaglio actual")
-st.dataframe(historical_display, width="stretch", hide_index=True)
-if historical_export:
-    st.download_button(
-        "Esporta storico actual CSV",
-        data=csv_bytes(historical_export, list(historical_export[0].keys())),
-        file_name=f"storico_actual_{start_date.isoformat()}_{end_date.isoformat()}.csv",
-        mime="text/csv",
+    fig.add_bar(
+        name="Spese actual",
+        x=historical_labels,
+        y=historical_expense_values,
+        marker_color=BRICK_LIGHT,
+        hovertemplate=(
+            "%{x}<br>"
+            "Spese € %{y:,.2f}"
+            "<extra></extra>"
+        ),
     )
-    if not historical_rows:
-        st.info("Nessuna transazione actual nel periodo e nei filtri selezionati.")
+
+    fig.add_scatter(
+        name="Risultato actual",
+        x=historical_labels,
+        y=historical_result_values,
+        mode="lines+markers",
+        line=dict(
+            color=OCHRE,
+            width=4,
+        ),
+        marker=dict(
+            color=OCHRE,
+            size=8,
+        ),
+        hovertemplate=(
+            "%{x}<br>"
+            "Risultato € %{y:,.2f}"
+            "<extra></extra>"
+        ),
+    )
+
+    fig.update_layout(
+        barmode="group",
+        bargap=0.18,
+    )
+
+    fig.update_xaxes(
+        type="category",
+        categoryorder="array",
+        categoryarray=historical_labels,
+        tickmode="array",
+        tickvals=historical_labels,
+        ticktext=historical_labels,
+        tickangle=0,
+        automargin=True,
+    )
+
+    show_plotly(
+        chart_style(
+            fig,
+            430,
+        )
+    )
+
+    historical_export = transaction_export_rows(historical_rows)
+    historical_display = [
+        {
+            "Data": row["Data"].strftime("%d/%m/%Y"),
+            "Importo EUR": fmt_number(row["Importo"], True),
+            "Categoria": row["Categoria"],
+            "Gruppo analisi": analysis_bucket(row),
+            "Progetto": row["Progetto"],
+            "Payee": row["Payee"],
+            "Conto": row["Conto"],
+            "Owner": row["Owner"],
+            "Fonte": row["Fonte"],
+        }
+            for row in historical_rows
+        ]
+    st.markdown("### Dettaglio actual")
+    st.dataframe(historical_display, width="stretch", hide_index=True)
+    if historical_export:
+        st.download_button(
+            "Esporta storico actual CSV",
+            data=csv_bytes(historical_export, list(historical_export[0].keys())),
+            file_name=f"storico_actual_{start_date.isoformat()}_{end_date.isoformat()}.csv",
+            mime="text/csv",
+        )
+        if not historical_rows:
+            st.info("Nessuna transazione actual nel periodo e nei filtri selezionati.")
 
 # ----- Patrimony -----
 with patrimony_tab:
