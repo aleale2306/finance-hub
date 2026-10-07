@@ -67,7 +67,7 @@ APP_PASSWORD = "FamigliaOlandese"
 
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
- 
+
 if not st.session_state.authenticated:
 
     st.title("Finance Hub")
